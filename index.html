@@ -41,6 +41,9 @@
       --container-pad: 14px;
 
       --logo-top: 82px; /* tamanho logo topo */
+
+      /* NOVO: altura estimada da topbar fixa (ajuste fino se quiser) */
+      --topbar-h: 110px;
     }
 
     html[data-theme="light"]{
@@ -86,7 +89,10 @@
       width: 100%;
       max-width: var(--container);
       margin: 0 auto;
-      padding: 86px var(--container-pad) 48px;
+
+      /* ALTERADO: espaço para a topbar fixa */
+      padding: calc(var(--topbar-h) + 20px) var(--container-pad) 48px;
+
       display:flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -118,9 +124,11 @@
       font-size: 15px;
     }
 
-    /* TOPBAR full width */
+    /* TOPBAR full width (FIXA) */
     .site-topbar{
-      position:absolute; top:0; left:0; right:0; z-index:60;
+      position: fixed; /* ALTERADO: antes era absolute */
+      top:0; left:0; right:0;
+      z-index:999; /* ALTERADO: para garantir acima do conteúdo */
       background: rgba(255,255,255,.18);
       backdrop-filter: blur(10px);
       border-bottom: 0px solid rgba(255,255,255,.00);
@@ -175,18 +183,20 @@
       flex-wrap: nowrap;
       white-space: nowrap;
     }
+
+    /* ALTERADO: aumentar fonte/padding das abas */
     .tab-btn{
       font-family:var(--font-tabs);
       border:none;
       cursor:pointer;
-      padding: 9px 11px;
+      padding: 11px 14px;        /* antes: 9px 11px */
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.00);
       background: rgba(255,255,255,.10);
       color:#fff;
-      letter-spacing:.09em;
+      letter-spacing:.10em;      /* antes: .09em */
       text-transform:uppercase;
-      font-size: 11.5px;
+      font-size: 13.5px;         /* antes: 11.5px */
       transition: transform .15s, background .15s;
       white-space:nowrap;
     }
@@ -195,6 +205,7 @@
       background: rgba(51,85,26,.78);
       border-color: rgba(255,255,255,.00);
     }
+
     .lang{
       display:flex;
       align-items:center;
@@ -252,10 +263,18 @@
       .nav-center{ justify-content:flex-start; }
       .nav-middle{ flex-wrap: wrap; justify-content:flex-start; }
       .tabs{ justify-content:flex-start; overflow:auto; padding-bottom: 6px; }
-      :root{ --logo-top: 70px; }
+
+      :root{
+        --logo-top: 70px;
+        --topbar-h: 95px; /* opcional: topbar menor no mobile */
+      }
+
       .brand-path{ max-width: 100%; }
       .tools-icons{ justify-content:start; }
       .topbar-tools{ justify-content:flex-start; }
+
+      /* opcional: abas um pouco menores no mobile */
+      .tab-btn{ font-size: 12px; padding: 10px 12px; }
     }
 
     /* CONTEÚDO */
@@ -580,7 +599,6 @@
 
     @media (max-width: 1100px){
       .members .card{ grid-column: span 12; }
-      .hero-content{ padding-top: 78px; }
       .footer-inner{ grid-template-columns: 1fr 1fr; }
       .footer-info{ grid-column: span 2; align-items: flex-start; text-align:left; }
     }
